@@ -1,3 +1,4 @@
+// Importing necessary packages
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -5,10 +6,13 @@ const cors = require("cors");
 require("dotenv").config();
 const apiRoutes = require("./src/routes");
 
+//Middlewares
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use("/api", apiRoutes);
 
+// Connecting to the database using mongoose
 try {
     mongoose.connect(process.env.MY_URI, {
         useNewUrlParser: true,
@@ -24,6 +28,7 @@ try {
     console.error(err);
 }
 
+// Health check to check whether the server is running or not.
 app.get("/healthcheck", (req, res) => {
     res.status(200).send("Server up and running!");
 });
