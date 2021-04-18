@@ -5,11 +5,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const apiRoutes = require("./src/routes");
+const morgan = require("morgan");
+const { string } = require("joi");
 
 //Middlewares
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use(morgan("dev"));
 app.use("/api", apiRoutes);
 
 // Connecting to the database using mongoose
@@ -20,7 +23,7 @@ try {
     });
 
     const db = mongoose.connection;
-    db.on("error", console.error.bind(console, "connection error:"));
+    db.on("error", () => console.error("connection error:"));
     db.once("open", () => {
         console.log("Successfully connected to database");
     });

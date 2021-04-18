@@ -22,7 +22,7 @@ const add = async (req, res) => {
         const user = await User.create({ name, phone, email, password });
         res.status(201).json(user);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).send(err);
     }
 };
